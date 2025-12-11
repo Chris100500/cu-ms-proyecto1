@@ -1,0 +1,111 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cu-ms-proyecto1
+  namespace: chris100500-dev
+  labels:
+    app: cu-ms-proyecto1
+    areanegocio: pagos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cu-ms-proyecto1
+  template:
+    metadata:
+      labels:
+        app: cu-ms-proyecto1
+    spec:
+      containers:
+        - name: hola-mundo
+          image: chris100500/cu-ms-proyecto1:{{ imageTag }}
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: 3000
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 3000
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            initialDelaySeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 3000
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            initialDelaySeconds: 5
+          envFrom:
+            - configMapRef:
+                name: cu-ms-proyecto1
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cu-ms-proyecto1
+  namespace: chris100500-dev
+spec:
+  selector:
+    app: cu-ms-proyecto1
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cu-ms-proyecto1
+  namespace: chris100500-dev
+data:
+  LOG_LEVEL: "debug"
+  MICROSERVICE_URL: "cu-ms-payments.chris100500-dev.svc.cluster.local:3000/users"
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: cu-ms-proyecto1
+  namespace: chris100500-dev
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cu-ms-proyecto1
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 90
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 90
