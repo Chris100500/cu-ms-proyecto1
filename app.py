@@ -88,7 +88,7 @@ class HolaMundoHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(result).encode('utf-8'))
         else:
-            self._send_text_response('<h1>Hola Mundo</h1>')
+            self._send_text_response('<h1>Hola Mundo desde MS 1</h1>')
 
     def do_POST(self):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
