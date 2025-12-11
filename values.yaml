@@ -3,9 +3,9 @@
 
 # Configuración básica del microservicio
 name: cu-ms-payments
-namespace: edisonpaul4-dev
+namespace: chris100500-dev
 imageTag: "1" # Será sobrescrito por CI/CD con --set imageTag=<value>
-port: 3000
+port: 3005
 
 # Variables de entorno (ConfigMap)
 configMap:
