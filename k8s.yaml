@@ -21,7 +21,7 @@ spec:
         - name: hola-mundo
           image: chris100500/cu-ms-proyecto1:{{ imageTag }}
           ports:
-            - containerPort: 3000
+            - containerPort: 3005
           resources:
             requests:
               cpu: "100m"
@@ -32,7 +32,7 @@ spec:
           startupProbe:
             httpGet:
               path: /startup
-              port: 3000
+              port: 3005
             failureThreshold: 3
             periodSeconds: 10
             successThreshold: 1
@@ -41,7 +41,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /liveness
-              port: 3000
+              port: 3005
             failureThreshold: 3
             periodSeconds: 10
             successThreshold: 1
@@ -50,7 +50,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /readiness
-              port: 3000
+              port: 3005
             failureThreshold: 3
             periodSeconds: 10
             successThreshold: 1
@@ -71,8 +71,8 @@ spec:
     app: cu-ms-proyecto1
   ports:
     - protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 3005
+      targetPort: 3005
   type: ClusterIP
 ---
 apiVersion: v1
