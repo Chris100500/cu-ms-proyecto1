@@ -82,7 +82,7 @@ metadata:
   namespace: chris100500-dev
 data:
   LOG_LEVEL: "debug"
-  MICROSERVICE_URL: "http://cu-ms-payments.chris100500-dev.svc.cluster.local:3000/users"
+  MICROSERVICE_URL: "http://cu-ms-payments:3000"
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
