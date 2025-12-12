@@ -15,7 +15,7 @@ import requests  # Para consumir el microservicio
 PORT = 3005
 
 # URL base del microservicio que gestiona la base de datos (configurable por variable de entorno)
-MICROSERVICE_BASE_URL = os.environ.get('MICROSERVICE_URL', 'http://cu-ms-payments.chris100500-dev.svc.cluster.local:3000')
+MICROSERVICE_BASE_URL = os.environ.get('MICROSERVICE_URL', 'http://cu-ms-payments:3000')
 
 def fetch_users():
     """Consume el endpoint GET /users del microservicio"""
